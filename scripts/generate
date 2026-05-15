@@ -1,0 +1,151 @@
+#!/bin/bash
+
+# Copyright (c) 2026, Xi Zhao, South China University of Technology. All rights reserved.
+
+################# 请在此处修改以下信息 #################
+# 学校 ID
+school_id="10561"
+# 学号
+student_id="202600000000"
+########################################################
+
+set -euo pipefail
+
+cur_dir=$(dirname "$(readlink -f "$0")")
+project_dir=$(dirname $cur_dir)
+
+outdir="$project_dir/build"
+src_file="$project_dir/article.tex"
+
+if [ ! -d "$outdir/out" ]; then
+  mkdir -p "$outdir/out"
+fi
+
+function fmt() {
+  sed 's/^/      /'
+}
+
+function set_docclass_line() {
+  if [ $# != 1 ]; then
+    echo "Usage: set_docclass_line <line>"
+    exit 1
+  fi
+  local line="$1"
+  local escaped_line
+  escaped_line=$(printf '%s' "$line" | sed -e 's/[\\&]/\\\\&/g')
+  sed -i -E "0,/^\\\\documentclass\\[.*\\]\\{scutthesis\\}/{s#^\\\\documentclass\\[.*\\]\\{scutthesis\\}#${escaped_line}#}" "$src_file"
+}
+
+function set_mode() {
+  if [ $# != 1 ]; then
+    echo "Usage: set_mode <submission|blindreview|maincontent>"
+    exit 1
+  fi
+  local mode="$1"
+  set_docclass_line "\\documentclass[unicode,master,${mode},final]{scutthesis}"
+}
+
+function run_xelatex() {
+  if [ $# != 1 ]; then
+    echo "Usage: run_xelatex <process_id>"
+    exit 1
+  fi
+  echo -e "$1 \033[32mRunning xelatex...\033[0m"
+  xelatex -synctex=1 -interaction=nonstopmode -file-line-error -output-directory="${outdir}" "${src_file}" 1>/dev/null 2> >(fmt >&2)
+}
+
+function run_biber() {
+  if [ $# != 1 ]; then
+    echo "Usage: run_biber <process_id>"
+    exit 1
+  fi
+  echo -e "$1 \033[32mRunning biber...\033[0m"
+  cp -f "$project_dir/article.bib" "$outdir/article.bib"
+  (
+    cd "$outdir"
+    biber article
+  ) 1>/dev/null 2> >(fmt >&2)
+}
+
+cd $project_dir
+
+function build_mode() {
+  if [ $# != 1 ]; then
+    echo "Usage: build_mode <submission | blindreview | maincontent>"
+    exit 1
+  fi
+  local mode="$1"
+  set_mode "$mode"
+  rm -f "$outdir/article.aux" "$outdir/article.toc" "$outdir/article.out" "$outdir/article.bcf" "$outdir/article.bbl" "$outdir/article.blg" "$outdir/article.run.xml" "$outdir/article.synctex" "$outdir/article.synctex.gz"
+  echo -e "\033[1;34mExecuting build process for ${mode}...\033[0m"
+  run_xelatex "[1/4]"
+  run_biber "[2/4]"
+  run_xelatex "[3/4]"
+  run_xelatex "[4/4]"
+  if [ $mode == "submission" ]; then
+    output_name="${school_id}_${student_id}.pdf"
+  elif [ $mode == "blindreview" ]; then
+    output_name="${school_id}_${student_id}_LW.pdf"
+  elif [ $mode == "maincontent" ]; then
+    output_name="${school_id}_${student_id}_ZT.pdf"
+  fi
+  cp "$outdir/article.pdf" "$outdir/out/${output_name}"
+  echo -e "\033[1;32mBuild completed!\033[0m => build/out/${output_name}"
+}
+
+function extract_cn_abstract() {
+  local abstract_out="$outdir/out/${school_id}_${student_id}_ZY.txt"
+  local tmp_out="$abstract_out.tmp"
+
+  echo -e "\033[1;34mExtracting Chinese abstract...\033[0m"
+
+  if ! awk '
+    BEGIN { inblock=0; found_start=0; found_end=0 }
+    /^\\chapter\{摘\\texorpdfstring\{\\quad\}\{\}要\}/ { inblock=1; found_start=1; next }
+    /^\\keywordsCN\{/ {
+      if (inblock == 1) { found_end=1 }
+      inblock=0
+      next
+    }
+    inblock == 1 { print }
+    END {
+      if (found_start == 0 || found_end == 0) {
+        exit 1
+      }
+    }
+  ' "$src_file" > "$tmp_out"; then
+    rm -f "$tmp_out"
+    echo "Failed to extract abstract block. Check chapter/keywords markers in $src_file"
+    exit 1
+  fi
+
+  # Trim leading/trailing blank lines for cleaner export.
+  sed '/./,$!d' "$tmp_out" | sed ':a;/^[[:space:]]*$/{$d;N;ba;}' > "$abstract_out"
+  rm -f "$tmp_out"
+
+  echo -e "\033[1;32mAbstract extracted!\033[0m => build/out/$(basename "$abstract_out")"
+}
+
+orig_docclass_line=$(grep -m1 '^\\documentclass\[' "$src_file")
+if [ -z "$orig_docclass_line" ]; then
+  echo "Cannot find \\documentclass line in $src_file"
+  exit 1
+fi
+
+cleanup() {
+  set_docclass_line "$orig_docclass_line"
+}
+trap cleanup EXIT
+trap cleanup INT
+
+# build submission mode
+build_mode "submission"
+sleep 1
+# build blindreview mode
+build_mode "blindreview"
+sleep 1
+# build maincontent mode
+build_mode "maincontent"
+
+# extract abstract
+extract_cn_abstract
