@@ -19,9 +19,13 @@
 sudo apt-get install texlive-full
 ```
 
-安装时间较长，请耐心等待！
+安装时间较长，请耐心等待！具体编写细节请参照 article.tex 文件中的注释！祝好 😀
 
-具体编写细节请参照 article.tex 文件中的注释！祝好 😀
+对于一键生成脚本，Debian 系发行版的 Linux 用户一般内置 Bash 终端，Windows 用户可以直接打开 Git 的命令行窗口，即 Git Bash 终端。在项目根目录下打开终端，输入以下命令运行一键生成脚本：
+
+```bash
+scripts/generate
+```
 
 ### 插件配置
 
