@@ -6,13 +6,13 @@
 # 学校 ID
 school_id="10561"
 # 学号
-student_id="202600000000"
+student_id="202320100381"
 ########################################################
 
 set -euo pipefail
 
 cur_dir=$(dirname "$(readlink -f "$0")")
-project_dir=$(dirname $cur_dir)
+project_dir=$(dirname "$cur_dir")
 
 outdir="$project_dir/build"
 src_file="$project_dir/article.tex"
@@ -67,7 +67,7 @@ function run_biber() {
   ) 1>/dev/null 2> >(fmt >&2)
 }
 
-cd $project_dir
+cd "$project_dir"
 
 function build_mode() {
   if [ $# != 1 ]; then
@@ -82,11 +82,11 @@ function build_mode() {
   run_biber "[2/4]"
   run_xelatex "[3/4]"
   run_xelatex "[4/4]"
-  if [ $mode == "submission" ]; then
+  if [ "$mode" == "submission" ]; then
     output_name="${school_id}_${student_id}.pdf"
-  elif [ $mode == "blindreview" ]; then
+  elif [ "$mode" == "blindreview" ]; then
     output_name="${school_id}_${student_id}_LW.pdf"
-  elif [ $mode == "maincontent" ]; then
+  elif [ "$mode" == "maincontent" ]; then
     output_name="${school_id}_${student_id}_ZT.pdf"
   fi
   cp "$outdir/article.pdf" "$outdir/out/${output_name}"
