@@ -121,7 +121,7 @@
 \RequirePackage[BoldFont, SlantFont]{xeCJK}
 \RequirePackage{CJKnumb}
 \RequirePackage{xCJKnumb} % 用于中文编号（如“第一章”）
-\setmainfont[Mapping=tex-text,Path=\SCUTTemplateRoot fonts/,
+\setmainfont[Mapping=tex-text,Path=\SCUTTemplateRoot public/fonts/,
   BoldFont={Times New Roman - Bold.ttf},
   ItalicFont={Times New Roman - Italic.ttf},
   BoldItalicFont={Times New Roman - Bold Italic.ttf},
@@ -129,13 +129,13 @@
 \XeTeXlinebreaklocale "zh" % 采用中文断行方式
 \XeTeXlinebreakskip = 0pt plus 1pt % 字元间可加入 0pt~1pt 的弹性间距，这样才能排出左右对齐的段落。
 
-\setCJKmainfont[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc}
-\setCJKsansfont[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc} % 设置默认字体，防止报警
-\setCJKmonofont[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc} % 设置默认字体，防止报警
-\setCJKfamilyfont{song}[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc}
-\setCJKfamilyfont{hei}[Path=\SCUTTemplateRoot fonts/]{SimHei.ttf}
-\setCJKfamilyfont{kai}[Path=\SCUTTemplateRoot fonts/]{KaiTi_GB2312.ttf}
-\setCJKfamilyfont{fang}[Path=\SCUTTemplateRoot fonts/]{FangSong_GB2312.ttf}
+\setCJKmainfont[Path=\SCUTTemplateRoot public/fonts/]{SimSun.ttc}
+\setCJKsansfont[Path=\SCUTTemplateRoot public/fonts/]{SimSun.ttc} % 设置默认字体，防止报警
+\setCJKmonofont[Path=\SCUTTemplateRoot public/fonts/]{SimSun.ttc} % 设置默认字体，防止报警
+\setCJKfamilyfont{song}[Path=\SCUTTemplateRoot public/fonts/]{SimSun.ttc}
+\setCJKfamilyfont{hei}[Path=\SCUTTemplateRoot public/fonts/]{SimHei.ttf}
+\setCJKfamilyfont{kai}[Path=\SCUTTemplateRoot public/fonts/]{KaiTi_GB2312.ttf}
+\setCJKfamilyfont{fang}[Path=\SCUTTemplateRoot public/fonts/]{FangSong_GB2312.ttf}
 
 \newcommand{\songti}{\CJKfamily{song}}
 \newcommand{\heiti}{\CJKfamily{hei}}

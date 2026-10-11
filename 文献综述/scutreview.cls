@@ -16,17 +16,17 @@
 \RequirePackage{etoolbox}
 \RequirePackage{needspace}
 \RequirePackage[unicode=true,colorlinks=false,pdfborder={0 0 0}]{hyperref}
-\setmainfont[Path=../fonts/,
+\setmainfont[Path=../public/fonts/,
   BoldFont={Times New Roman - Bold.ttf},
   ItalicFont={Times New Roman - Italic.ttf},
   BoldItalicFont={Times New Roman - Bold Italic.ttf}]{Times New Roman.ttf}
-\setCJKmainfont[Path=../fonts/,AutoFakeBold=2]{SimSun.ttc}
-\setCJKsansfont[Path=../fonts/]{SimSun.ttc}
-\setCJKmonofont[Path=../fonts/]{SimSun.ttc}
-\setCJKfamilyfont{song}[Path=../fonts/,AutoFakeBold=2]{SimSun.ttc}
-\setCJKfamilyfont{hei}[Path=../fonts/,AutoFakeBold=2]{SimHei.ttf}
-\setCJKfamilyfont{kai}[Path=../fonts/]{KaiTi_GB2312.ttf}
-\setCJKfamilyfont{fang}[Path=../fonts/,AutoFakeBold=2]{FangSong_GB2312.ttf}
+\setCJKmainfont[Path=../public/fonts/,AutoFakeBold=2]{SimSun.ttc}
+\setCJKsansfont[Path=../public/fonts/]{SimSun.ttc}
+\setCJKmonofont[Path=../public/fonts/]{SimSun.ttc}
+\setCJKfamilyfont{song}[Path=../public/fonts/,AutoFakeBold=2]{SimSun.ttc}
+\setCJKfamilyfont{hei}[Path=../public/fonts/,AutoFakeBold=2]{SimHei.ttf}
+\setCJKfamilyfont{kai}[Path=../public/fonts/]{KaiTi_GB2312.ttf}
+\setCJKfamilyfont{fang}[Path=../public/fonts/,AutoFakeBold=2]{FangSong_GB2312.ttf}
 \providecommand{\songti}{}
 \providecommand{\heiti}{}
 \providecommand{\kaiti}{}
