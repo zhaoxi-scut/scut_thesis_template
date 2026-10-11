@@ -9,7 +9,9 @@
 - 支持硕士和博士两种论文类型切换；
 - 支持盲审、提交、查重三种模式切换；
 - 内置中文和英文字体，跨平台也无需担心字体问题；
-- 为 Bash 用户提供一键生成脚本，用于快速生成盲审系统提交所需的 PDF 和 TXT 文件；
+- 提供一键生成脚本，生成提交、盲审、查重 PDF 及中文摘要 TXT。
+  - Windows 用户可直接双击 scripts 下的 generate.bat 运行；
+  - Linux 用户可在终端输入 `bash scripts/generate.sh` 运行。
 
 #### 开题报告与文献综述
 
@@ -54,3 +56,32 @@ Ubuntu 用户安装时间较长，请耐心等待！如果遇到安装时卡住�
 ### 完整编译
 
 操作同“快速编译>手动”，只需点击“配方：完整编译”即可。
+
+### 一键生成毕业论文提交材料
+
+毕业论文的 `scripts/generate.sh` 和 `scripts/generate.bat` 功能相同。运行前，修改所用脚本顶部的 `school_id`（学校 ID）和 `student_id`（学号）。两个脚本独立保存这两个设置，切换脚本时请保持一致。
+
+在“毕业论文”工作空间的终端运行：
+
+Bash（Linux / Git Bash）：
+
+```bash
+bash scripts/generate.sh
+```
+
+Windows（PowerShell 或 CMD）：
+
+```powershell
+.\scripts\generate.bat
+```
+
+Windows 版本使用系统自带的 Windows PowerShell，不需要安装 Bash。两种方式都要求 `xelatex` 和 `biber` 已加入 PATH；也可从其他目录运行脚本，脚本会自动定位毕业论文目录。
+
+每个版本均执行 XeLaTeX → Biber → XeLaTeX → XeLaTeX，结果保存在 `毕业论文/build/out/`：
+
+- `学校ID_学号.pdf`：最终提交版。
+- `学校ID_学号_LW.pdf`：匿名盲审版。
+- `学校ID_学号_ZT.pdf`：正文查重版。
+- `学校ID_学号_ZY.txt`：中文摘要，直接提取源码中的摘要段，保留其中的 LaTeX 命令。
+
+两个脚本都沿用 `unicode,master,对应版本,final` 编译选项，即默认生成硕士论文；运行后恢复 `article.tex` 原来的编译选项。脚本运行期间请勿同时编辑 `article.tex` 或启动其他编译。生成文件会覆盖同名旧文件；编译失败时停止，并返回错误状态。
