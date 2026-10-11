@@ -11,11 +11,11 @@ student_id="202320100381"
 
 set -euo pipefail
 
-cur_dir=$(dirname "$(readlink -f "$0")")
-project_dir=$(dirname "$cur_dir")
+script_dir=$(dirname "$(readlink -f "$0")")
+thesis_dir=$(dirname "$script_dir")
 
-outdir="$project_dir/build"
-src_file="$project_dir/article.tex"
+outdir="$thesis_dir/build"
+src_file="$thesis_dir/article.tex"
 
 if [ ! -d "$outdir/out" ]; then
   mkdir -p "$outdir/out"
@@ -60,14 +60,14 @@ function run_biber() {
     exit 1
   fi
   echo -e "$1 \033[32mRunning biber...\033[0m"
-  cp -f "$project_dir/article.bib" "$outdir/article.bib"
+  cp -f "$thesis_dir/article.bib" "$outdir/article.bib"
   (
     cd "$outdir"
     biber article
   ) 1>/dev/null 2> >(fmt >&2)
 }
 
-cd "$project_dir"
+cd "$thesis_dir"
 
 function build_mode() {
   if [ $# != 1 ]; then

@@ -1,0 +1,46 @@
+{
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.recipe.default": "快速编译",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "快速编译",
+      "tools": [
+        "xelatex"
+      ]
+    },
+    {
+      "name": "完整编译",
+      "tools": [
+        "xelatex",
+        "xelatex"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "xelatex",
+      "command": "xelatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-halt-on-error",
+        "-recorder",
+        "-output-directory=%OUTDIR%",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "biber",
+      "command": "biber",
+      "args": [
+        "%OUTDIR%/%DOCFILE%"
+      ]
+    }
+  ],
+  "latex-workshop.latex.build.fromFolder": "",
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  "[latex]": {
+    "editor.wordWrap": "on"
+  }
+}

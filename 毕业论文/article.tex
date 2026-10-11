@@ -21,50 +21,21 @@
 %      超链接样式:
 %         manuscript: 手稿样式，适合在线阅读
 %         final:      提交样式，适合打印，去除超链接颜色和边框
-%   4. 专为 Bash 用户设计的一键论文生成脚本 generate 已提供，位于 scripts
+%   4. 专为 Bash 用户设计的一键论文生成脚本 generate 已提供，位于本目录的 scripts
 %      文件夹中，能同时提供用于提交、盲审、查重的三种版本的 PDF 文件，并且
 %      提供包含摘要的 TXT 文件，方便在线提交系统。学号和学校 ID 需要在
-%      generate 脚本中进行设置，生成的 PDF 文件会保存在 output 文件夹中。
+%      generate 脚本中进行设置，生成的 PDF 文件会保存在 build/out 文件夹中。
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% 毕业论文专用类完整存放在本目录的 scutthesis.cls 中。
 \documentclass[unicode,master,submission,final]{scutthesis}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TeX 功能包设置
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{fix-cm}
-\usepackage{anyfontsize}
-\usepackage{fontspec,color,array,longtable,graphicx}
-\usepackage{bytefield}
-\usepackage{fancyhdr}
-\usepackage{xunicode}
-\usepackage[backend=biber,style=gb7714-2015,gbalign=gb7714-2015,gbpub=false,gbnamefmt=lowercase]{biblatex}
 % 参考文献导入
 \addbibresource{article.bib}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 页眉页脚设置
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagestyle{fancy}
-\fancyfoot[C]{\headfont\thepage}
-\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
-\fancyhead[RE]{}
-\fancyhead[RO]{}
-\fancyhead[LE]{}
-\fancyhead[LO]{}
-\fancyhead[CO]{\headfont{\leftmark}}
-\fancyhead[CE]{\headfont{\thesissubject}}%
-\renewcommand{\headrulewidth}{1.5pt}
-\renewcommand{\footrulewidth}{0pt}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 封面设置
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[unicode=true,bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]{hyperref}
-
-\thesishypersetup
 
 \begin{document}
 
@@ -115,8 +86,6 @@ The main contributions include:
 
 \mainmatter
 
-% 正文部分页眉页脚微调（每章第一页均设置页眉页脚）
-\fancypagestyle{plain}{\pagestyle{fancy}}
 \pagestyle{fancy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

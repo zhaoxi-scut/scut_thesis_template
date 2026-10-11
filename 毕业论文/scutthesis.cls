@@ -14,6 +14,11 @@
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{scutthesis}[2011/03/31 2.0.1 The LaTeX class for the thesis of South China University of Technology]
 
+% 本类仅位于“毕业论文”目录，字体资源位于上一级目录。
+\providecommand{\SCUTTemplateRoot}{../}
+% 封面默认位于当前文档目录，可由具体文档在加载本类前覆盖。
+\providecommand{\SCUTCoverRoot}{cover/}
+
 % 全局选项
 \newif\ifmasterdegree\masterdegreefalse % 默认博士
 \newif\ifpdfcover\pdfcoverfalse
@@ -116,7 +121,7 @@
 \RequirePackage[BoldFont, SlantFont]{xeCJK}
 \RequirePackage{CJKnumb}
 \RequirePackage{xCJKnumb} % 用于中文编号（如“第一章”）
-\setmainfont[Mapping=tex-text,Path=fonts/,
+\setmainfont[Mapping=tex-text,Path=\SCUTTemplateRoot fonts/,
   BoldFont={Times New Roman - Bold.ttf},
   ItalicFont={Times New Roman - Italic.ttf},
   BoldItalicFont={Times New Roman - Bold Italic.ttf},
@@ -124,13 +129,13 @@
 \XeTeXlinebreaklocale "zh" % 采用中文断行方式
 \XeTeXlinebreakskip = 0pt plus 1pt % 字元间可加入 0pt~1pt 的弹性间距，这样才能排出左右对齐的段落。
 
-\setCJKmainfont[Path=fonts/]{SimSun.ttc}
-\setCJKsansfont[Path=fonts/]{SimSun.ttc} % 设置默认字体，防止报警
-\setCJKmonofont[Path=fonts/]{SimSun.ttc} % 设置默认字体，防止报警
-\setCJKfamilyfont{song}[Path=fonts/]{SimSun.ttc}
-\setCJKfamilyfont{hei}[Path=fonts/]{SimHei.ttf}
-\setCJKfamilyfont{kai}[Path=fonts/]{KaiTi_GB2312.ttf}
-\setCJKfamilyfont{fang}[Path=fonts/]{FangSong_GB2312.ttf}
+\setCJKmainfont[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc}
+\setCJKsansfont[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc} % 设置默认字体，防止报警
+\setCJKmonofont[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc} % 设置默认字体，防止报警
+\setCJKfamilyfont{song}[Path=\SCUTTemplateRoot fonts/]{SimSun.ttc}
+\setCJKfamilyfont{hei}[Path=\SCUTTemplateRoot fonts/]{SimHei.ttf}
+\setCJKfamilyfont{kai}[Path=\SCUTTemplateRoot fonts/]{KaiTi_GB2312.ttf}
+\setCJKfamilyfont{fang}[Path=\SCUTTemplateRoot fonts/]{FangSong_GB2312.ttf}
 
 \newcommand{\songti}{\CJKfamily{song}}
 \newcommand{\heiti}{\CJKfamily{hei}}
@@ -346,13 +351,13 @@
   \ifmaincontent
   \else
     \ifblindreview
-      \IfFileExists{cover/cover_blind.pdf}{
-        \includepdf[pages={-}]{cover/cover_blind.pdf}
+      \IfFileExists{\SCUTCoverRoot cover_blind.pdf}{
+        \includepdf[pages={-}]{\SCUTCoverRoot cover_blind.pdf}
       }{
-        \includepdf[pages={-}]{cover/cover.pdf}
+        \includepdf[pages={-}]{\SCUTCoverRoot cover.pdf}
       }
     \else
-      \includepdf[pages={-}]{cover/cover.pdf}
+      \includepdf[pages={-}]{\SCUTCoverRoot cover.pdf}
     \fi
   \fi
 }
@@ -432,4 +437,26 @@
 \abovedisplayskip=10pt
 \belowdisplayskip=10pt
 
+% 毕业论文专用附加设置。
+\RequirePackage{fix-cm}
+\RequirePackage{anyfontsize}
+\RequirePackage{fontspec,color,array,longtable,graphicx}
+\RequirePackage{bytefield}
+\RequirePackage{fancyhdr}
+\RequirePackage{xunicode}
+\pagestyle{fancy}
+\fancyfoot[C]{\headfont\thepage}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhead[RE]{}
+\fancyhead[RO]{}
+\fancyhead[LE]{}
+\fancyhead[LO]{}
+\fancyhead[CO]{\headfont{\leftmark}}
+\fancyhead[CE]{\headfont{\thesissubject}}
+\renewcommand{\headrulewidth}{1.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\RequirePackage[unicode=true,bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true]{hyperref}
+\thesishypersetup
+\RequirePackage[backend=biber,style=gb7714-2015,gbalign=gb7714-2015,gbpub=false,gbnamefmt=lowercase]{biblatex}
 \endinput

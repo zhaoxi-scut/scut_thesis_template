@@ -1,17 +1,23 @@
-## 2026 版华南理工大学硕士（博士）毕业论文
+## 2026 版华南理工大学硕士（博士）毕业材料
 
-🎉 更优雅、更简洁、更易用的 SCUT 硕博毕业论文 LaTeX 模板 🎉
+🎉 更优雅、更简洁、更易用的 SCUT 硕博毕业材料 LaTeX 模板 🎉
 
 ### 特性
 
-- 支持字体的彩色和黑白两种模式切换；
+#### 毕业论文
+
 - 支持硕士和博士两种论文类型切换；
 - 支持盲审、提交、查重三种模式切换；
 - 内置中文和英文字体，跨平台也无需担心字体问题；
 - 为 Bash 用户提供一键生成脚本，用于快速生成盲审系统提交所需的 PDF 和 TXT 文件；
-- 超级详细的注释，便于用户理解和修改。
+
+#### 开题报告与文献综述
+
+- 收录了开题报告和文献综述的 LaTeX 模板！
 
 ### 前言
+
+记得在 VS Code 中打开对应的工作空间！
 
 编译前需要安装 Tex Live 编译器，Windows 用户可以从[官网](https://www.tug.org/texlive/)进行下载，Linux 发行版的用户可以通过包管理器安装 Tex Live，例如在 Ubuntu 上可以使用以下命令：
 
@@ -19,102 +25,30 @@
 sudo apt-get install texlive-full
 ```
 
-安装时间较长，请耐心等待！具体编写细节请参照 article.tex 文件中的注释！祝好 😀
+Ubuntu 用户安装时间较长，请耐心等待！如果遇到安装时卡住的情况，只需疯狂按回车键即可。
 
-对于一键生成脚本，Debian 系发行版的 Linux 用户一般内置 Bash 终端，Windows 用户可以直接打开 Git 的命令行窗口，即 Git Bash 终端。在项目根目录下打开终端，输入以下命令运行一键生成脚本：
+安装完成后，需要在 VS Code 中安装 LaTeX Workshop 扩展，然后通过“文件 → 打开文件夹”，打开要编辑的具体文档目录作为工作空间，也就是说：
 
-```bash
-scripts/generate
-```
+- 写毕业论文：打开 `毕业论文/`，编辑 `article.tex`。
+- 写开题报告：打开 `开题报告/`，编辑 `main.tex`。
+- 写文献综述：打开 `文献综述/`，编辑 `main.tex`。
 
-### 插件配置
+详细内容请参考具体源文件中的注释，祝好 :)
 
-在 Visual Studio Code 中安装 LaTeX Workshop 插件，配置推荐如下
+## 编译
 
-```json
-{
-  "latex-workshop.latex.tools": [
-    {
-      "name": "xelatex",
-      "command": "xelatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-output-directory=%OUTDIR%",
-        "%DOC%"
-      ]
-    },
-    {
-      "name": "pdflatex",
-      "command": "pdflatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-output-directory=%OUTDIR%",
-        "%DOC%"
-      ]
-    },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
-      "args": [
-        "%OUTDIR%/%DOCFILE%"
-      ]
-    },
-    {
-      "name": "biber",
-      "command": "biber",
-      "args": [
-        "%OUTDIR%/%DOCFILE%"
-      ]
-    },
-    {
-      "name": "latexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-pdf",
-        "-output-directory=%OUTDIR%",
-        "%DOC%"
-      ]
-    }
-  ],
-  "latex-workshop.latex.recipes": [
-    {
-      "name": "SCUT 毕业论文快速编译",
-      "tools": [
-        "xelatex"
-      ]
-    },
-    {
-      "name": "SCUT 毕业论文完整编译",
-      "tools": [
-        "xelatex",
-        "biber",
-        "xelatex",
-        "xelatex"
-      ]
-    },
-    {
-      "name": "英文论文快速编译",
-      "tools": [
-        "pdflatex"
-      ]
-    },
-    {
-      "name": "BibTeX",
-      "tools": [
-        "bibtex"
-      ]
-    }
-  ],
-  "latex-workshop.latex.outDir": "%DIR%/build",
-  "[latex]": {
-    "editor.wordWrap": "on"
-  }
-}
-```
+各文档工作空间内均已装载 `.vscode/settings.json`，完成了常用的编译配置，编译后会在当前目录的 `build/` 文件夹下生成 PDF 文件。
+
+### 快速编译
+
+#### 自动
+
+编辑某个 `*.tex` 文件后，直接按 `Ctrl + S` 保存即可触发快速编译。
+
+#### 手动
+
+确保当前正在编辑的页面（活动页）是你要编译的 `.tex` 文件。在 VS Code 左侧有个“TeX”图标，打开“构建 LaTeX 项目”的菜单栏，点击“配方：快速编译”，即可手动触发快速编译。
+
+### 完整编译
+
+操作同“快速编译>手动”，只需点击“配方：完整编译”即可。
